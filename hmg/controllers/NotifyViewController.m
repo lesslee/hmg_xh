@@ -73,7 +73,7 @@ UITableView *tableView;
     tableView.delegate=self;
     
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
     
 }
@@ -259,7 +259,7 @@ UITableView *tableView;
         Common *common=[[Common alloc] initWithView:self.view];
     
         if (common.isConnectionAvailable) {
-    [HUDManager showMessage:@"加载中..."];
+                //[HUDManager showMessage:@"加载中..."];
     isRefresh=YES;
     currentPage=1;
     

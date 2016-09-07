@@ -159,7 +159,7 @@ UITableView *tableView1;
     [self areaQuery];
     
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     
     [self.refreshControll startPullDownRefreshing];
     
@@ -167,7 +167,7 @@ UITableView *tableView1;
 
 -(void)search1{
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
     [self.weekends removeAllObjects];
     [tableView1 reloadData];
@@ -270,7 +270,7 @@ UITableView *tableView1;
     [HUDManager showErrorWithMessage:@"网络错误" duration:1];
     //NSLog(@"---------------------------------");
     //NSLog(@"%@",error.localizedFailureReason);
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    //[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 //请求成功，解析结果
@@ -281,8 +281,16 @@ UITableView *tableView1;
         {
             /**查询大区**/
             if ([@"HMG_AREA_QUERY" isEqualToString:[dic objectForKey:@"name"]]) {
+                AppDelegate *del = [[UIApplication sharedApplication]delegate];
+                
                 AreaModel *tempArea=[[AreaModel alloc] init];
+                [self.areas removeAllObjects];
                 [self.areas addObjectsFromArray:[tempArea searchNodeToArray:xml nodeName:@"NewDataSet"]];
+                if ([del.userInfo1.EMP_TYPE isEqualToString:@"0"]) {
+                    self.selectArea = (AreaModel *)[self.areas objectAtIndex:0];
+                } else {
+                    self.selectArea.DEPT_ID = @"";
+                }
                 
             }
             /**查询部门**/
@@ -544,8 +552,8 @@ UITableView *tableView1;
 //-------------------------------
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath != nil) {
     WeekendViewCell *weekCell=(WeekendViewCell*)cell;
-    
     weekend *weekModel=(weekend*)[self.weekends objectAtIndex:indexPath.row];
     
     weekCell.store.text = weekModel.STORE_NM;
@@ -556,8 +564,7 @@ UITableView *tableView1;
     weekCell.promDtm.text = weekModel.PROM_DTM;
     weekCell.posMoney.text = weekModel.POS_MONEY;
 }
-
-
+}
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -661,7 +668,7 @@ UITableView *tableView1;
 
 - (void)beginPullDownRefreshing {
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     isRefresh=YES;
     currentPage=1;
     //[self setCanBack:NO];
@@ -669,7 +676,7 @@ UITableView *tableView1;
 }
 - (void)beginPullUpLoading
 {
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     //[self setCanBack:NO];
     isRefresh=NO;
     [self performSelector:@selector(endLoadMore) withObject:nil afterDelay:3];
@@ -688,12 +695,12 @@ UITableView *tableView1;
         }
         else
         {
-            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
-                reportParam.IN_AREA_ID=@"";
-            }else
-            {
+//            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
+//                reportParam.IN_AREA_ID=@"";
+//            }else
+//            {
                 reportParam.IN_AREA_ID=self.selectArea.DEPT_ID;
-            }
+            //}
         }
         if (self.selectDept==nil) {
             reportParam.IN_DEPT_ID=@"";
@@ -749,6 +756,8 @@ UITableView *tableView1;
         [self.serviceHelper addRequestQueue:request1];
         
         [self.serviceHelper startQueue];
+        [self.weekends removeAllObjects];
+        [tableView1 reloadData];
     }
 }
 - (void)endLoadMore {
@@ -763,12 +772,12 @@ UITableView *tableView1;
         }
         else
         {
-            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
-                reportParam.IN_AREA_ID=@"";
-            }else
-            {
+//            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
+//                reportParam.IN_AREA_ID=@"";
+//            }else
+//            {
                 reportParam.IN_AREA_ID=self.selectArea.DEPT_ID;
-            }
+            //}
         }
         if (self.selectDept==nil) {
             reportParam.IN_DEPT_ID=@"";

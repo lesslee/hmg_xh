@@ -101,8 +101,8 @@
             }
             
             NSLog(@"%@",item.stringValue);
-            
-            [array addObject:model];
+            if (model.ID != nil)
+                [array addObject:model];
         }
     }
     return array;
