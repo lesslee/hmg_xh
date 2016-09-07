@@ -281,9 +281,16 @@ UITableView *tableView1;
             {
             /**查询大区**/
             if ([@"HMG_AREA_QUERY" isEqualToString:[dic objectForKey:@"name"]]) {
+                AppDelegate *del = [[UIApplication sharedApplication]delegate];
                 AreaModel *tempArea=[[AreaModel alloc] init];
+                [self.areas removeAllObjects];
                 [self.areas addObjectsFromArray:[tempArea searchNodeToArray:xml nodeName:@"NewDataSet"]];
-                
+                if ([del.userInfo1.EMP_TYPE isEqualToString:@"0"]) {
+                    self.selectArea=(AreaModel*)[self.areas objectAtIndex:0];
+                    NSLog(@"%@1",[self.areas[0]DEPT_NM]);
+                }else{
+                    self.selectArea.DEPT_ID = @"";
+                }
             }
             /**查询部门**/
             if ([@"HMG_DEPT_QUERY" isEqualToString:[dic objectForKey:@"name"]])
@@ -715,12 +722,12 @@ UITableView *tableView1;
         }
         else
             {
-            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
-                reportParam.IN_AREA_ID=@"";
-            }else
-                {
+//            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
+//                reportParam.IN_AREA_ID=@"";
+//            }else
+//                {
                 reportParam.IN_AREA_ID=self.selectArea.DEPT_ID;
-                }
+            //}
             }
         if (self.selectDept==nil) {
             reportParam.IN_DEPT_ID=@"";
@@ -776,6 +783,9 @@ UITableView *tableView1;
         [self.serviceHelper addRequestQueue:request1];
         
         [self.serviceHelper startQueue];
+        
+        [self.weekends removeAllObjects];
+        [tableView1 reloadData];
     }
 }
 - (void)endLoadMore {
@@ -790,12 +800,12 @@ UITableView *tableView1;
         }
         else
             {
-            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
-                reportParam.IN_AREA_ID=@"";
-            }else
-                {
+//            if ([self.selectArea.DEPT_ID isEqualToString:@"0"]) {
+//                reportParam.IN_AREA_ID=@"";
+//            }else
+//                {
                 reportParam.IN_AREA_ID=self.selectArea.DEPT_ID;
-                }
+                //}
             }
         if (self.selectDept==nil) {
             reportParam.IN_DEPT_ID=@"";
