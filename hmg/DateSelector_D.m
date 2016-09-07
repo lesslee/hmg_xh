@@ -1,28 +1,29 @@
-//
-//  DateSelector_D.m
-//  hmg
-//
-//  Created by Hongxianyu on 16/4/19.
-//  Copyright © 2016年 com.lz. All rights reserved.
-//
+    //
+    //  DateSelector_D.m
+    //  hmg
+    //
+    //  Created by Hongxianyu on 16/4/19.
+    //  Copyright © 2016年 com.lz. All rights reserved.
+    //
 
 #import "DateSelector_D.h"
-#import "Brand1TableViewController.h" 
+#import "Brand1TableViewController.h"
 #import "StoreTableViewController.h"
-#import "Store.h"
-#import "Brand1.h"
+#import "WeekendViewController.h"
+    //#import "Store.h"
+    //#import "Brand1.h"
 NSString *const kStartDateA2 = @"startDateA2";
-//
+    //
 NSString *const kEndDateA2 = @"endDateA2";
 
-NSString *const kSearchA2 = @"searchA1";
+NSString *const kSearchA2 = @"searchA2";
 
-NSString *const Kstore1 = @"store";
-NSString *const Kbrand1 = @"brand";
+NSString *const Kstore12 = @"Kstore12";
+NSString *const Kbrand12 = @"Kbrand12";
 
 @implementation DateSelector_D
 
-@synthesize delegate=_delegate;
+@synthesize trendDelegate=_trendDelegate;
 
 XLFormDescriptor * formDescriptor;
 XLFormSectionDescriptor * section;
@@ -31,7 +32,7 @@ XLFormRowDescriptor * row;
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-   
+    
     if (self){
         [self initializeForm];
     }
@@ -81,14 +82,14 @@ XLFormRowDescriptor * row;
     row.value =[NSDate date];
     [section addFormRow:row];
     
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:Kstore1 rowType:XLFormRowDescriptorTypeSelectorPush title:@"门店:"];
-    row.selectorControllerClass = [StoreTableViewController class];
+    row = [XLFormRowDescriptor formRowDescriptorWithTag:Kstore12 rowType:XLFormRowDescriptorTypeSelectorPush title:@"门店:"];
+    row.action.viewControllerClass = [StoreTableViewController class];
     
     [section addFormRow:row];
     
-    row = [XLFormRowDescriptor formRowDescriptorWithTag:Kstore1 rowType:XLFormRowDescriptorTypeSelectorPush title:@"品牌:"];
+    row = [XLFormRowDescriptor formRowDescriptorWithTag:Kbrand12 rowType:XLFormRowDescriptorTypeSelectorPush title:@"品牌:"];
     
-    row.selectorControllerClass = [Brand1TableViewController class];
+    row.action.viewControllerClass = [Brand1TableViewController class];
     [section addFormRow:row];
     self.form = formDescriptor;
 }
@@ -119,25 +120,32 @@ XLFormRowDescriptor * row;
 
 -(void) saveButtonHandle
 {
-    NSDate *startDate=[self.form formRowWithTag:kStartDateA2].value;
+    WeekendViewController *vc = [[WeekendViewController alloc]init];
     
-    NSDate *endDate=[self.form formRowWithTag:kEndDateA2].value;
+    NSDate *startDate1=[self.form formRowWithTag:kStartDateA2].value;
     
-    Store  *store = [self.form formRowWithTag:Kstore1].value;
-    Brand1 *brand = [self.form formRowWithTag:Kbrand1].value;
+    NSDate *endDate1=[self.form formRowWithTag:kEndDateA2].value;
+    
+    Store  *store = [self.form formRowWithTag:Kstore12].value;
+    NSLog(@"%@",store.STORE_ID);
+    Brand1 *brand = [self.form formRowWithTag:Kbrand12].value;
+    NSLog(@"%@",brand.ID);
     NSDateFormatter *fmt=[[NSDateFormatter alloc] init];
     fmt.dateFormat=@"yyyyMMdd";
     
-    if ([[fmt stringFromDate:startDate] intValue] <=[[fmt stringFromDate:endDate] intValue]) {
+    if ([[fmt stringFromDate:startDate1] intValue] <=[[fmt stringFromDate:endDate1] intValue]) {
+        self.trendDelegate=vc; //设置代理
         
-        [self.delegate getSTORE:store andBRAND:brand andSTARTDATE:[fmt stringFromDate:startDate] andENDDATE:[fmt stringFromDate:endDate]];
+        [self.trendDelegate getSTORE:store andBRAND:brand andSTARTDATE:[fmt stringFromDate:startDate1] andENDDATE:[fmt stringFromDate:endDate1]];
         
-        [self.navigationController popViewControllerAnimated:YES];
+            //        [self.delegate getSTORE:store andBRAND:brand andSTARTDATE:[fmt stringFromDate:startDate] andENDDATE:[fmt stringFromDate:endDate]];
+        
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else
-    {
+        {
         [HUDManager showMessage:@"日期选择错误" duration:1];
-    }
+        }
     
     
     
@@ -145,7 +153,7 @@ XLFormRowDescriptor * row;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+        // Dispose of any resources that can be recreated.
 }
 
 @end
