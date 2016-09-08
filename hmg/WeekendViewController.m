@@ -582,7 +582,7 @@ UITableView *tableView1;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(goBackMenu)];
     
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"选择日期" style:UIBarButtonItemStyleBordered target:self action:@selector(searchButtonHandle)];
     
@@ -627,13 +627,14 @@ UITableView *tableView1;
     [self.navigationController.view.layer addAnimation:animation forKey:nil];
 }
     //返回
--(void) goBack
+-(void) goBackMenu
 {
     [request1 clearDelegatesAndCancel];
     [self.serviceHelper resetQueue];
     self.serviceHelper=nil;
     [HUDManager hide];
-    [self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
 -(void) getSTORE:(Store *) STORE andBRAND:(Brand1 *) BRAND andSTARTDATE:(NSString *) STARTDATE andENDDATE:(NSString *) ENDDATE;
