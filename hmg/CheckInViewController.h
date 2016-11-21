@@ -22,6 +22,7 @@
 
 @property (nonatomic, retain) NSString * LON;//精度
 @property (nonatomic, retain) NSString * LAT;//纬度
+@property(nonatomic,strong)NSString *Address;//定位的地址
 @property ServiceHelper *serviceHelper;
 
 @end

@@ -13,10 +13,12 @@
     
     NSString *lat1;
     NSString *lon1;
+    NSString *address;
     
 }
 @property (nonatomic) BMKMapView * mapView;
 @property (nonatomic,strong)BMKLocationService *locService;
+@property (nonatomic, strong)CLLocationManager *cllocationManager;
 @end
 
 @implementation GpsViewController
@@ -108,7 +110,30 @@
     double lon = userLocation.location.coordinate.longitude;
     lat1 = [NSString stringWithFormat:@"%f",lat];
     lon1 = [NSString stringWithFormat:@"%f",lon];
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+    [geocoder reverseGeocodeLocation:userLocation.location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        for (CLPlacemark *place in placemarks) {
+//            NSDictionary *location =[place addressDictionary];
+//            NSLog(@"国家：%@",[location objectForKey:@"Country"]);
+//            NSLog(@"城市：%@",[location objectForKey:@"State"]);
+//            NSLog(@"区：%@",[location objectForKey:@"SubLocality"]);
+//            
+//            NSLog(@"位置：%@", place.name);
+//            NSLog(@"国家：%@", place.country);
+//            NSLog(@"城市：%@", place.locality);
+//            NSLog(@"区：%@", place.subLocality);
+//            NSLog(@"街道：%@", place.thoroughfare);
+//            NSLog(@"子街道：%@", place.subThoroughfare);
+         NSDictionary *test = [place addressDictionary];
+                // Country(国家) State(城市) SubLocality(区) Name全称
+         NSLog(@"%@", [test objectForKey:@"Name"]);
+            address = [test objectForKey:@"Name"];
+
+                   }
+    }];
 }
+
 
 
 /**
@@ -173,7 +198,7 @@
         
         [checkViewController setValue:lat1 forKey:@"LAT"];
         [checkViewController setValue:lon1 forKey:@"LON"];
-        
+        [checkViewController setValue:address forKey:@"Address"];
         NSLog(@"%@",lat1);
         NSLog(@"%@",lon1);
         
