@@ -96,7 +96,7 @@ UITableView *tableView;
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     [self.navigationController setNavigationBarHidden:NO];
     
@@ -160,26 +160,37 @@ UITableView *tableView;
     
     self.boardID = value.BOARD_ID;
     self.seq = value.SEQ;
-    
-    [self performSegueWithIdentifier:@"boardDetailId" sender:self];
-    
-}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if (isRefresh) {
         [self.refreshControll endPullDownRefreshing];
     }else
-    {
+        {
         
         [self.refreshControll endPullUpLoading];
-    }
+        }
+
+    notifyViewDetailController *nvdc = [[notifyViewDetailController alloc]init];
+    nvdc.boardId = self.boardID;
+    nvdc.seq = self.seq;
+    [self.navigationController pushViewController:nvdc animated:YES];
+        //[self performSegueWithIdentifier:@"boardDetailId" sender:self];
     
-    // segue.identifier：获取连线的ID
-    if ([segue.identifier isEqualToString:@"boardDetailId"]) {
-        notifyViewDetailController *receive = segue.destinationViewController;
-        receive.boardId = self.boardID;
-        receive.seq = self.seq;
-    }
 }
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    if (isRefresh) {
+//        [self.refreshControll endPullDownRefreshing];
+//    }else
+//    {
+//        
+//        [self.refreshControll endPullUpLoading];
+//    }
+//    
+//    // segue.identifier：获取连线的ID
+//    if ([segue.identifier isEqualToString:@"boardDetailId"]) {
+//        notifyViewDetailController *receive = segue.destinationViewController;
+//        receive.boardId = self.boardID;
+//        receive.seq = self.seq;
+//    }
+//}
 -(void) goBack
 {
     [request1 clearDelegatesAndCancel];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3bP-HT-nFQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3bP-HT-nFQ">
     <dependencies>
         <deployment version="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -94,10 +94,10 @@
             </objects>
             <point key="canvasLocation" x="1044" y="-572"/>
         </scene>
-        <!--Menu View Controller-->
+        <!--Menu View Controller1-->
         <scene sceneID="Bel-g5-Nb1">
             <objects>
-                <viewController wantsFullScreenLayout="YES" id="QG4-me-BJa" customClass="MenuViewController" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" id="QG4-me-BJa" customClass="MenuViewController1" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2q2-Sv-ECA"/>
                         <viewControllerLayoutGuide type="bottom" id="CTt-cC-hO2"/>
@@ -124,7 +124,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rgs-Ec-m0u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1101" y="356"/>
+            <point key="canvasLocation" x="1099" y="369"/>
+        </scene>
+        <!--Store Visit Number View Controller-->
+        <scene sceneID="cTh-J8-vRC">
+            <objects>
+                <viewController id="Dpc-2d-8jb" customClass="StoreVisitNumberViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0sU-JO-GVp"/>
+                        <viewControllerLayoutGuide type="bottom" id="9PT-CO-uOa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HNo-fl-Scp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2bf-XD-tKu"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nFk-Jf-w32" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="789" y="1915"/>
         </scene>
         <!--Store Info View Controller-->
         <scene sceneID="nRI-tM-2CU">
@@ -182,6 +201,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7hm-ZV-ujZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="697" y="3041"/>
+        </scene>
+        <!--Interview View Controller-->
+        <scene sceneID="ktk-7s-hdi">
+            <objects>
+                <viewController id="DCR-ld-v6w" customClass="InterviewViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fCI-bj-ozG"/>
+                        <viewControllerLayoutGuide type="bottom" id="N1x-L2-JxN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="N2s-MT-jYj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="yX7-fq-ubN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3eY-rd-2fP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="172" y="2213"/>
         </scene>
         <!--Store Flow View Controller-->
         <scene sceneID="Y3W-Uo-akD">
@@ -335,10 +373,10 @@
             </objects>
             <point key="canvasLocation" x="213" y="1161"/>
         </scene>
-        <!--Week View Controller-->
+        <!--Weekend Promotion View Controller-->
         <scene sceneID="gz4-5f-cWJ">
             <objects>
-                <viewController id="Jau-cB-8Y9" customClass="WeekViewController" sceneMemberID="viewController">
+                <viewController id="Jau-cB-8Y9" customClass="Weekend_PromotionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TvN-Ep-4dI"/>
                         <viewControllerLayoutGuide type="bottom" id="JWW-XN-RtR"/>
@@ -395,6 +433,8 @@
                         <segue destination="oOj-3O-Wq5" kind="push" id="5Pa-oU-8Gm"/>
                         <segue destination="C29-Fk-1XB" kind="push" id="AIx-hf-IeP"/>
                         <segue destination="34G-cR-hmW" kind="push" id="kP0-N4-YkA"/>
+                        <segue destination="DCR-ld-v6w" kind="push" id="Xcb-ah-zdC"/>
+                        <segue destination="Dpc-2d-8jb" kind="push" id="jtE-0G-lo5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5gl-VK-P7T" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -503,8 +543,8 @@
                     <connections>
                         <segue destination="RPM-z3-igr" kind="push" identifier="searchId" id="bPu-Tg-XQw"/>
                         <segue destination="dXO-5a-MCY" kind="push" identifier="reportDetailId" id="hUd-98-bux"/>
-                        <segue destination="kLb-qD-bUn" kind="push" identifier="reportuserId" id="oLn-pD-80x"/>
                         <segue destination="Agt-l1-HID" kind="push" identifier="ReportCustomerCellId" id="ODb-Z3-n0W"/>
+                        <segue destination="0w7-Hj-gPZ" kind="push" identifier="reportuserId" id="bqX-aZ-2K1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3p2-Sd-tAD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -572,23 +612,23 @@
             <point key="canvasLocation" x="1838" y="951"/>
         </scene>
         <!--Report User View Controller-->
-        <scene sceneID="ABu-n5-tyS">
+        <scene sceneID="l4E-lY-zPo">
             <objects>
-                <viewController id="kLb-qD-bUn" customClass="ReportUserViewController" sceneMemberID="viewController">
+                <viewController id="0w7-Hj-gPZ" customClass="ReportUserViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4Mc-T5-caT"/>
-                        <viewControllerLayoutGuide type="bottom" id="xej-Bb-wc8"/>
+                        <viewControllerLayoutGuide type="top" id="RwY-WM-dSE"/>
+                        <viewControllerLayoutGuide type="bottom" id="N5H-Zy-2qU"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hHn-dK-rSF">
+                    <view key="view" contentMode="scaleToFill" id="ubl-J3-we9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="yv2-0j-hLp"/>
+                    <navigationItem key="navigationItem" id="yMh-mr-e4T"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5BH-Rm-AEM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="05f-e4-ZQ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2350" y="799"/>
+            <point key="canvasLocation" x="2341" y="834"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="1Ua-lf-Nwi">
@@ -676,7 +716,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZKL-Gk-Acc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1838" y="1434"/>
+            <point key="canvasLocation" x="1736" y="1598"/>
         </scene>
         <!--Check In View Controller-->
         <scene sceneID="vIN-qH-QEB">

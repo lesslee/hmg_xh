@@ -130,9 +130,9 @@ NSArray *array;
             [[Brand alloc] initWithID:@"C5601" andNAME:@"u-za"],
             [[Brand alloc] initWithID:@"C5602" andNAME:@"phyll"],
             [[Brand alloc] initWithID:@"C5603" andNAME:@"Denti"],
+            [[Brand alloc] initWithID:@"C5610" andNAME:@"TGM"],
             [[Brand alloc] initWithID:@"C5604" andNAME:@"其他"],
             [[Brand alloc] initWithID:@"C5605" andNAME:@"全部"],
-            
             nil];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[BPCell class] forCellReuseIdentifier:kCellIdentifier];

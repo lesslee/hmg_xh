@@ -74,7 +74,7 @@ UITableView *tableView;
     tableView.dataSource=self;
     tableView.delegate=self;
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
     
 }
@@ -86,7 +86,7 @@ UITableView *tableView;
     if (!self.serviceHelper) {
         self.serviceHelper = [[ServiceHelper alloc]initWithDelegate:self];
     }
-    [self.navigationItem setTitle:@"consumer公告"];
+    [self.navigationItem setTitle:@"Consumer公告"];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationController.navigationBar.titleTextAttributes=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor];
     
@@ -97,7 +97,7 @@ UITableView *tableView;
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
     [self.navigationController setNavigationBarHidden:NO];
@@ -251,7 +251,7 @@ UITableView *tableView;
     Common *common=[[Common alloc] initWithView:self.view];
     
     if (common.isConnectionAvailable) {
-    [HUDManager showMessage:@"加载中..."];
+            //[HUDManager showMessage:@"加载中..."];
     isRefresh=YES;
     //currentPage=1;
     
@@ -267,7 +267,7 @@ UITableView *tableView;
     Common *common=[[Common alloc] initWithView:self.view];
     
     if (common.isConnectionAvailable) {
-    [HUDManager showMessage:@"加载中..."];
+            // [HUDManager showMessage:@"加载中..."];
     isRefresh=NO;
     [self performSelector:@selector(endLoadMore) withObject:nil afterDelay:3];
     }else{

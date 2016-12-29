@@ -27,6 +27,7 @@ static NSString * const PASSWORD = @"hmg6102";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     NSLog(@"%@,%@",date,fileName);
     //ftp上照片路径
     NSString *TODAY_PATH=[NSString stringWithFormat:@"/../../.././file/temp/%@/",date];

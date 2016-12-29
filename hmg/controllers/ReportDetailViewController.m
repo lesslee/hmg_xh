@@ -329,7 +329,15 @@ self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"è
     file3 =sender.title;
     NSLog(@"%@",file3);
     time  = string;
-    [self performSegueWithIdentifier:@"photoId" sender:self];
+    
+    ReportPhotoViewController *rpv =[[ReportPhotoViewController alloc]init];
+    [rpv setValue:file3 forKey:@"fileName"];
+    [rpv setValue:time forKey:@"date"];
+    
+    NSLog(@"y------------------%@%@",file3,time);
+    [self.navigationController pushViewController:rpv animated:YES];
+
+        //[self performSegueWithIdentifier:@"photoId" sender:self];
 
 
     }
@@ -348,17 +356,17 @@ self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"è
     // Dispose of any resources that can be recreated.
 }
 
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    
-    if ([segue.identifier isEqualToString:@"photoId"]) {
-        id detailViewController=segue.destinationViewController;
-        
-        [detailViewController setValue:file3 forKey:@"fileName"];
-        [detailViewController setValue:time forKey:@"date"];
-        
-    }
-
-}
+//-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    
+//    if ([segue.identifier isEqualToString:@"photoId"]) {
+//        id detailViewController=segue.destinationViewController;
+//        
+//        [detailViewController setValue:file3 forKey:@"fileName"];
+//        [detailViewController setValue:time forKey:@"date"];
+//        
+//    }
+//
+//}
 
 @end

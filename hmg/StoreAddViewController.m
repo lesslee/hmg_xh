@@ -140,7 +140,7 @@ NSString *const kButton = @"kButton";
     
     self.navigationItem.title=@"新建门店";
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
     
@@ -157,48 +157,6 @@ NSString *const kButton = @"kButton";
     HUDManager = [[MBProgressHUDManager alloc] initWithView:self.navigationController.view];
     
 }
-- (BOOL)checkTel:(NSString *)str
-
-{
-    
-    NSString *regex = @"^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
-    
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    
-    BOOL isMatch = [pred evaluateWithObject:str];
-    
-    if (!isMatch) {
-        
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入正确的手机号码" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        
-        [alert show];
-        return NO;
-        
-    }
-    return YES;
-    
-}
-
-//- (BOOL)checkNumber:(NSString *)number{
-//    
-//    NSString * strNum = @"^(0[0-9]{2,3})?([2-9][0-9]{6,7})?$";
-//    
-//    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", strNum];
-//    
-//    BOOL isMatch = [pred evaluateWithObject:number];
-//    
-//    if (!isMatch) {
-//        
-//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入正确的固话" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//        
-//        [alert show];
-//        return NO;
-//        
-//    }
-//    return YES;
-//    
-//}
-
 
 -(void)saveStore{
     
@@ -210,16 +168,41 @@ NSString *const kButton = @"kButton";
     
     if ([name isEqualToString: @""]|| [manager isEqualToString:@""]|| [managerTel isEqualToString:@""]|| [Tel isEqualToString:@""]||type == nil|| _section.formRows.count==0)
         {
-        if (managerTel != nil) {
-            [self checkTel:[self.form formRowWithTag:kManagerTel].value];
-            
-        }
-//        if (Tel !=nil) {
-//            [self checkNumber:[self.form formRowWithTag:kTel].value];
-//        }
           [HUDManager showMessage:@"信息不完整!" mode:MBProgressHUDModeText duration:1];
-    }else
-    {
+        }else if([self.form formRowWithTag:kManagerTel].value != nil){
+            if (managerTel.length < 11 || managerTel.length > 11)
+                {
+                [HUDManager showMessage:@"手机号码长度只能是11位" duration:1];
+                
+                }else{
+                    /**
+                     * 移动号段正则表达式
+                     */
+                    NSString *CM_NUM = @"^((13[4-9])|(147)|(15[0-2,7-9])|(178)|(18[2-4,7-8]))\\d{8}|(1705)\\d{7}$";
+                    /**
+                     * 联通号段正则表达式
+                     */
+                    NSString *CU_NUM = @"^((13[0-2])|(145)|(15[5-6])|(176)|(18[5,6]))\\d{8}|(1709)\\d{7}$";
+                    /**
+                     * 电信号段正则表达式
+                     */
+                    NSString *CT_NUM = @"^((133)|(153)|(177)|(18[0,1,9]))\\d{8}$";
+                    NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM_NUM];
+                    BOOL isMatch1 = [pred1 evaluateWithObject:managerTel];
+                    NSPredicate *pred2 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU_NUM];
+                    BOOL isMatch2 = [pred2 evaluateWithObject:managerTel];
+                    NSPredicate *pred3 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT_NUM];
+                    BOOL isMatch3 = [pred3 evaluateWithObject:managerTel];
+                    
+                    if (isMatch1 || isMatch2 || isMatch3) {
+                       
+                    }else{
+                        [HUDManager showMessage:@"请输入正确的手机号码" duration:1];
+                    }
+
+            }
+    
+        }else {
         NSArray *pro_agents=[self parsingString:_section.formRows];
         
         Common *common=[[Common alloc] initWithView:self.view];

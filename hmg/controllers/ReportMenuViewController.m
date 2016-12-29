@@ -16,6 +16,7 @@
 #import "UChartViewController.h"
 #import "PChartViewController.h"
 
+
 //#import "ChartTestViewController.h"
 @interface ReportMenuViewController ()
 
@@ -29,15 +30,17 @@ NSString * const khmg5 = @"khmg5";
 NSString * const khmg6 = @"khmg6";
 NSString * const khmg7 = @"khmg7";
 
+
+
 @implementation ReportMenuViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.backgroundColor=[UIColor whiteColor];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self.navigationItem setTitle:@"数据查询"];
+    [self.navigationItem setTitle:@"报表"];
       //set NavigationBar 背景颜色&title 颜色
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
    // self.navigationController.navigationBar.titleTextAttributes=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor];
@@ -95,39 +98,39 @@ NSString * const khmg7 = @"khmg7";
     
     // TextFieldAndTextView
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg1 rowType:XLFormRowDescriptorTypeButton title:@"门店信息汇总"];
-    row.buttonViewController = [StoreInfoViewController class];
+    row.action.viewControllerClass = [StoreInfoViewController class];
     [section addFormRow:row];
     
     // Selectors
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg2 rowType:XLFormRowDescriptorTypeButton title:@"门店拜访汇总"];
-    row.buttonViewController = [StoreVisitationViewController class];
+    row.action.viewControllerClass = [StoreVisitationViewController class];
     [section addFormRow:row];
     
     // Dates
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg3 rowType:XLFormRowDescriptorTypeButton title:@"门店流向汇总"];
-    row.buttonViewController = [StoreFlowViewController class];
+    row.action.viewControllerClass = [StoreFlowViewController class];
     [section addFormRow:row];
     
     // Others
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg4 rowType:XLFormRowDescriptorTypeButton title:@"地区别门店分布"];
-    row.buttonViewController = [StoreLayoutViewController class];
+    row.action.viewControllerClass = [StoreLayoutViewController class];
     [section addFormRow:row];
     
     section = [XLFormSectionDescriptor formSectionWithTitle:@"流向曲线图"];
     [form addFormSection:section];
     
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg5 rowType:XLFormRowDescriptorTypeButton title:@"地区别流向曲线图"];
-    row.buttonViewController = [BChartViewController class];
+    row.action.viewControllerClass = [BChartViewController class];
     [section addFormRow:row];
     
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg6 rowType:XLFormRowDescriptorTypeButton title:@"人员别流向曲线图"];
-    row.buttonViewController = [UChartViewController class];
+    row.action.viewControllerClass = [UChartViewController class];
     [section addFormRow:row];
     
     row = [XLFormRowDescriptor formRowDescriptorWithTag:khmg7 rowType:XLFormRowDescriptorTypeButton title:@"品别流向曲线图"];
-    row.buttonViewController = [PChartViewController class];
+    row.action.viewControllerClass = [PChartViewController class];
     [section addFormRow:row];
-    
+  
     self.form = form;
     
 }

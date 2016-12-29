@@ -23,13 +23,16 @@
 #import "AreaModel.h"
 #import "Brand1.h"
 #import "Store.h"
-#import "WeekendViewCell.h"
+    //#import "WeekendViewCell.h"
 #import "weekend.h"
 #import "weekendDelegate.h"
 #import "SearchViewController.h"
 #import "Common.h"
 #import "ASINetworkQueue.h"
 #import "DateSelector_D.h"
+#import "WeekendViewCell1.h"
+
+#import "PromotionCell.h"
 ASIHTTPRequest *request1;
 
 const int pageSize1=50;
@@ -60,10 +63,10 @@ const int pageSize1=50;
 @property (nonatomic, strong) AreaModel *selectArea;
 @property (nonatomic, strong) DeptModel *selectDept;
 @property (nonatomic, strong) UserModel *selectUser;
-@property (nonatomic, strong) NSString *startDate;
-@property (nonatomic, strong) NSString *endDate;
+@property (nonatomic, strong) NSString *startDate1;
+@property (nonatomic, strong) NSString *endDate1;
 @property (nonatomic, strong) Store *sotre;
-@property (nonatomic, strong) Brand1 *brand;
+@property (nonatomic, strong) Brand1 *brand1;
 @property (nonatomic) NSInteger pageSize1;
 
 @property(nonatomic, strong)NSString *StoreID;
@@ -77,6 +80,8 @@ NSInteger lastRow1=-1;
 
     //bool canBack=YES;
 UITableView *tableView1;
+UIScrollView *scrollView;
+
 - (CLLRefreshHeadController *)refreshControll
 {
     if (!_refreshControll) {
@@ -98,14 +103,16 @@ UITableView *tableView1;
     self.serviceHelper=[[ServiceHelper alloc] initWithDelegate:self];
     
     self.weekends = [[NSMutableArray alloc] init];
-    
-    tableView1=[[UITableView alloc] initWithFrame:CGRectMake(0, 105,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 108)];
+    self.view.backgroundColor = [self colorWithHexString:@"#e9f1f6" alpha:1];
+    tableView1=[[UITableView alloc] initWithFrame:CGRectMake(0, 105,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 105)];
     tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
+        //tableView1.backgroundColor= [UIColor colorWithRed:233/255.0 green:241/255.0 blue:246/255.0 alpha:1.0f];
     [self.view addSubview:tableView1];
     
     tableView1.dataSource=self;
     tableView1.delegate=self;
-    
+    scrollView = [[UITableView alloc] initWithFrame:CGRectMake(0, 105,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 108)];
+    [self scrollViewDidScroll:scrollView];
     
         //    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         //    button.frame = CGRectMake(10, 110, self.view.frame.size.width - 20, 35);
@@ -153,26 +160,41 @@ UITableView *tableView1;
     NSDate *lastWeek = [now dateByAddingTimeInterval:-secondsPerDay1];
     NSDateFormatter *fmt=[[NSDateFormatter alloc] init];
     fmt.dateFormat=@"yyyyMMdd";
-    self.startDate=[fmt stringFromDate:lastWeek];
-    self.endDate=[fmt stringFromDate:[NSDate date]];
+    self.startDate1=[fmt stringFromDate:lastWeek];
+    self.endDate1=[fmt stringFromDate:[NSDate date]];
     
     [self areaQuery];
     
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     
     [self.refreshControll startPullDownRefreshing];
     
 }
 
--(void)search1{
-    
-    [HUDManager showMessage:@"加载中..."];
+-(void) getSTORE:(Store *) STORE andBRAND:(Brand1 *) BRAND andSTARTDATE:(NSString *) STARTDATE andENDDATE:(NSString *) ENDDATE;
+{
+    self.startDate1=STARTDATE;
+    self.endDate1=ENDDATE;
+    self.sotre = STORE;
+    NSLog(@"%@123",self.sotre.STORE_ID);
+    self.brand1 = BRAND;
+    NSLog(@"%@,%@,%@,%@",self.startDate1,self.endDate1,self.sotre,self.brand1);
+        //[self data];
+        //    [self.weekends removeAllObjects];
+        //    [tableView1 reloadData];
+        //        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
-    [self.weekends removeAllObjects];
-    [tableView1 reloadData];
 }
 
+//-(void)search1{
+//    
+//        //[HUDManager showMessage:@"加载中..."];
+//    [self.refreshControll startPullDownRefreshing];
+//    [self.weekends removeAllObjects];
+//    [tableView1 reloadData];
+//}
+//
 -(UIColor *)colorWithHexString:(NSString *)color alpha:(CGFloat)alpha
 {
         //删除字符串中的空格
@@ -509,59 +531,72 @@ UITableView *tableView1;
 
 #pragma UITableView代理
 
--(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 110;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.weekends.count;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
+    //去掉UItableview headerview黏性(sticky)
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == tableView1)
+        {
+        CGFloat sectionHeaderHeight = 1; //sectionHeaderHeight
+        if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
+            
+            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+            
+        } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
+            
+            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+            
+        }
+        }
+}
+
+
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WeekendViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"WeekendViewCell"];
+    PromotionCell * cell = [PromotionCell cellWithTableView:tableView1];
     
-    if (!cell)
-        {
-        [tableView registerNib:[UINib nibWithNibName:@"WeekendViewCell" bundle:nil] forCellReuseIdentifier:@"WeekendViewCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"WeekendViewCell"];
-        }
-    
-    
-    if (indexPath.row%2==0) {
-        cell.backgroundColor=[UIColor whiteColor];
-    }
-    else
-        {
-        cell.backgroundColor=[UIColor colorWithWhite:0.95 alpha:1.0];
-        }
+//    if (!cell)
+//        {
+//        [tableView registerNib:[UINib nibWithNibName:@"PromotionCell" bundle:nil] forCellReuseIdentifier:@"PromotionCell"];
+//        cell = [tableView dequeueReusableCellWithIdentifier:@"PromotionCell"];
+//        }
+//    
     
     cell.layer.masksToBounds=YES;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
     //-------------------------------
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WeekendViewCell *weekCell=(WeekendViewCell*)cell;
+    PromotionCell *weekCell=(PromotionCell*)cell;
     
-    weekend *weekModel=(weekend*)[self.weekends objectAtIndex:indexPath.row];
+    weekend *weekModel=(weekend*)[self.weekends objectAtIndex:indexPath.section];
     
-    weekCell.store.text = weekModel.STORE_NM;
-    weekCell.prodName.text = weekModel.PROD_NM;
-    weekCell.qty.text = weekModel.QTY;
-    weekCell.spec.text = weekModel.SPEC;
-    weekCell.inpUser.text = weekModel.EMP_NM;
-    weekCell.promDtm.text = weekModel.PROM_DTM;
-    weekCell.posMoney.text = weekModel.POS_MONEY;
+    weekCell.storeLabel.text = weekModel.STORE_NM;
+    NSString *pm = weekModel.POS_MONEY;
+    if (weekModel.POS_MONEY == NULL) {
+        weekCell.posLabel.text = @"";
+    }else{
+        weekCell.posLabel.text = [NSString stringWithFormat:@"¥ %@",pm];
+    }
+    weekCell.productLabel.text = weekModel.PROD_NM;
+    weekCell.countLabel.text = weekModel.QTY;
+    weekCell.userLabel.text = weekModel.EMP_NM;
+    weekCell.specLabel.text = weekModel.SPEC;
+    weekCell.promotionDateLabel.text = weekModel.PROM_DTM;
 }
 
 
@@ -573,13 +608,13 @@ UITableView *tableView1;
         self.serviceHelper=[[ServiceHelper alloc] initWithDelegate:self];
     }
     
-    [self.navigationItem setTitle:@"查询促销"];
+    [self.navigationItem setTitle:@"促销查询"];
     
     self.navigationController.navigationBar.titleTextAttributes=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor];
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(goBackMenu)];
@@ -637,43 +672,30 @@ UITableView *tableView1;
     [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 }
 
--(void) getSTORE:(Store *) STORE andBRAND:(Brand1 *) BRAND andSTARTDATE:(NSString *) STARTDATE andENDDATE:(NSString *) ENDDATE;
-{
-    self.startDate=STARTDATE;
-    self.endDate=ENDDATE;
-    self.sotre = STORE;
-    NSLog(@"%@123",self.sotre.STORE_ID);
-    self.brand = BRAND;
-    [self data];
-        //    [self.weekends removeAllObjects];
-        //    [tableView1 reloadData];
-        //        //[HUDManager showMessage:@"加载中..."];
-        //    [self.refreshControll startPullDownRefreshing];
-}
--(void)data{
-    
-    HMG_WEEKEND_PROMOTION_QUERY *reportParam=[[HMG_WEEKEND_PROMOTION_QUERY alloc] init];
-    
-    reportParam.IN_EMP_NO = self.selectUser.PERNR;
-    reportParam.IN_AREA_ID = self.selectArea.DEPT_ID;
-    reportParam.IN_DEPT_ID = self.selectDept.DEPT_ID;
-    reportParam.IN_TYPE_ID = self.brand.ID;
-    reportParam.IN_STORE_ID = self.sotre.STORE_ID;
-    reportParam.IN_START_DATE = self.startDate;
-    reportParam.IN_END_DATE = self.endDate;
-    
-    NSLog(@"%@,%@.%@",reportParam, reportParam.IN_STORE_ID,reportParam.IN_TYPE_ID);
-    
-    reportParam.IN_CURRENT_PAGE=[[NSNumber numberWithInt:currentPage] stringValue];
-    reportParam.IN_PAGE_SIZE=[[NSNumber numberWithInt:pageSize1] stringValue];
-    NSString *paramXml=[SoapHelper objToDefaultSoapMessage:reportParam];
-    
-    ASIHTTPRequest *request1=[ServiceHelper commonSharedRequestMethod:@"HMG_WEEKEND_PROMOTION_QUERY" soapMessage:paramXml ];
-    [request1 setUserInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"HMG_WEEKEND_PROMOTION_QUERY",@"name", nil]];
-    [self.serviceHelper addRequestQueue:request1];
-    [self.serviceHelper startQueue];
-    
-}
+//-(void)data{
+//    
+//    HMG_WEEKEND_PROMOTION_QUERY *reportParam=[[HMG_WEEKEND_PROMOTION_QUERY alloc] init];
+//    
+//    reportParam.IN_EMP_NO = self.selectUser.PERNR;
+//    reportParam.IN_AREA_ID = self.selectArea.DEPT_ID;
+//    reportParam.IN_DEPT_ID = self.selectDept.DEPT_ID;
+//    reportParam.IN_TYPE_ID = self.brand1.ID;
+//    reportParam.IN_STORE_ID = self.sotre.STORE_ID;
+//    reportParam.IN_START_DATE = self.startDate;
+//    reportParam.IN_END_DATE = self.endDate;
+//    
+//    NSLog(@"%@,%@.%@",reportParam, reportParam.IN_STORE_ID,reportParam.IN_TYPE_ID);
+//    
+//    reportParam.IN_CURRENT_PAGE=[[NSNumber numberWithInt:currentPage] stringValue];
+//    reportParam.IN_PAGE_SIZE=[[NSNumber numberWithInt:pageSize1] stringValue];
+//    NSString *paramXml=[SoapHelper objToDefaultSoapMessage:reportParam];
+//    
+//    ASIHTTPRequest *request1=[ServiceHelper commonSharedRequestMethod:@"HMG_WEEKEND_PROMOTION_QUERY" soapMessage:paramXml ];
+//    [request1 setUserInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"HMG_WEEKEND_PROMOTION_QUERY",@"name", nil]];
+//    [self.serviceHelper addRequestQueue:request1];
+//    [self.serviceHelper startQueue];
+//    
+//}
 
 
 #pragma 刷新控件
@@ -696,7 +718,7 @@ UITableView *tableView1;
 
 - (void)beginPullDownRefreshing {
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     isRefresh=YES;
     currentPage=1;
         //[self setCanBack:NO];
@@ -704,7 +726,7 @@ UITableView *tableView1;
 }
 - (void)beginPullUpLoading
 {
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
         //[self setCanBack:NO];
     isRefresh=NO;
     [self performSelector:@selector(endLoadMore) withObject:nil afterDelay:3];
@@ -754,25 +776,27 @@ UITableView *tableView1;
                 reportParam.IN_EMP_NO=self.selectUser.PERNR;
                 }
             }
-        if (self.sotre == nil) {
-            reportParam.IN_STORE_ID = @"";
-        } else {
-            reportParam.IN_STORE_ID = self.sotre.STORE_ID;
-        }
-        
-        if (self.brand == nil) {
-            reportParam.IN_TYPE_ID = @"";
-        } else {
-            reportParam.IN_TYPE_ID = self.brand.ID;
-        }
+//        if (self.sotre == nil) {
+//            reportParam.IN_STORE_ID = @"";
+//        } else {
+//            reportParam.IN_STORE_ID = self.sotre.STORE_ID;
+//        }
+//        
+//        if (self.brand1 == nil) {
+//            reportParam.IN_TYPE_ID = @"";
+//        } else {
+//            reportParam.IN_TYPE_ID = self.brand1.ID;
+//        }
             //        reportParam.IN_TYPE_ID = @"";
             //        reportParam.IN_STORE_ID = @"";
-        reportParam.IN_START_DATE=self.startDate;
-        reportParam.IN_END_DATE=self.endDate;
+        reportParam.IN_STORE_ID = self.sotre.STORE_ID;
+        reportParam.IN_TYPE_ID = self.brand1.ID;
+        reportParam.IN_START_DATE=self.startDate1;
+        reportParam.IN_END_DATE=self.endDate1;
         reportParam.IN_CURRENT_PAGE=[[NSNumber numberWithInt:currentPage] stringValue];
         reportParam.IN_PAGE_SIZE=[[NSNumber numberWithInt:pageSize1] stringValue];
         
-        NSLog(@"%@,%@,%@",reportParam.IN_AREA_ID,reportParam.IN_DEPT_ID,reportParam.IN_EMP_NO);
+        NSLog(@"%@,%@,%@,%@",reportParam.IN_AREA_ID,reportParam.IN_DEPT_ID,reportParam.IN_EMP_NO,reportParam.IN_START_DATE);
         
         NSString *paramXml=[SoapHelper objToDefaultSoapMessage:reportParam];
         NSLog(@"%@",paramXml);
@@ -833,26 +857,28 @@ UITableView *tableView1;
                 }
             }
         
-        if (self.sotre == nil) {
-            reportParam.IN_STORE_ID = @"";
-        } else {
-            reportParam.IN_STORE_ID = self.sotre.STORE_ID;
-        }
-        
-        if (self.brand == nil) {
-            reportParam.IN_TYPE_ID = @"";
-        } else {
-            reportParam.IN_TYPE_ID = self.brand.ID;
-        }
+//        if (self.sotre == nil) {
+//            reportParam.IN_STORE_ID = @"";
+//        } else {
+//            reportParam.IN_STORE_ID = self.sotre.STORE_ID;
+//        }
+//        
+//        if (self.brand1 == nil) {
+//            reportParam.IN_TYPE_ID = @"";
+//        } else {
+//            reportParam.IN_TYPE_ID = self.brand1.ID;
+//        }
             // reportParam.IN_TYPE_ID = @"";
             //reportParam.IN_STORE_ID = @"";
-        reportParam.IN_START_DATE=self.startDate;
-        reportParam.IN_END_DATE=self.endDate;
+        reportParam.IN_TYPE_ID = self.brand1.ID;
+        reportParam.IN_STORE_ID = self.sotre.STORE_ID;
+        reportParam.IN_START_DATE=self.startDate1;
+        reportParam.IN_END_DATE=self.endDate1;
         reportParam.IN_CURRENT_PAGE=[[NSNumber numberWithInt:currentPage] stringValue];
         reportParam.IN_PAGE_SIZE=[[NSNumber numberWithInt:pageSize1] stringValue];
         
         
-        NSLog(@"%@,%@,%@",reportParam.IN_AREA_ID,reportParam.IN_DEPT_ID,reportParam.IN_EMP_NO);
+        NSLog(@"%@,%@,%@,%@",reportParam.IN_AREA_ID,reportParam.IN_DEPT_ID,reportParam.IN_EMP_NO,reportParam.IN_START_DATE );
         
         NSString *paramXml=[SoapHelper objToDefaultSoapMessage:reportParam];
         NSLog(@"%@--------",paramXml);

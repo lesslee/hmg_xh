@@ -13,14 +13,14 @@
 #import "weekendDelegate.h"
 #import "Store.h"
 #import "Brand1.h"
-@protocol weekendDelegate1 <NSObject>
-
--(void) getSTORE:(Store *) STORE andBRAND:(Brand1 *) BRAND andSTARTDATE:(NSString *) STARTDATE andENDDATE:(NSString *) ENDDATE;
-@end
+//@protocol weekendDelegate1 <NSObject>
+//
+//-(void) getSTORE:(Store *) STORE andBRAND:(Brand1 *) BRAND andSTARTDATE:(NSString *) STARTDATE andENDDATE:(NSString *) ENDDATE;
+//@end
 @interface DateSelector_D : XLFormViewController
 {
     MBProgressHUDManager *HUDManager;
 }
-@property (strong,nonatomic) id <weekendDelegate1> trendDelegate;
-    //@property NSObject<weekendDelegate> *delegate;
+@property NSObject <weekendDelegate>* trendDelegate;
+
 @end

@@ -21,7 +21,7 @@
 #import "SoapHelper.h"
 #import "CommonResult.h"
 #import "Common.h"
-
+#import "UploadViewController.h"
 
 @interface AddReportViewController ()<UIAlertViewDelegate>
 {
@@ -99,7 +99,7 @@ NSString *const kSegmentedControl = @"segmentedControl";
     [self.row addObserver:self forKeyPath:@"value" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
     
     self.row = [XLFormRowDescriptor formRowDescriptorWithTag:kSelectorStore rowType:XLFormRowDescriptorTypeSelectorPush title:@"门店"];
-    self.row.selectorControllerClass = [StoreTableViewController class];
+    self.row.action.viewControllerClass = [StoreTableViewController class];
     [self.section addFormRow:self.row];
     
     self.row = [XLFormRowDescriptor formRowDescriptorWithTag:kName rowType:XLFormRowDescriptorTypeText title:@"被拜访人"];
@@ -115,11 +115,11 @@ NSString *const kSegmentedControl = @"segmentedControl";
     [self.section addFormRow:self.row];
     
     self.row = [XLFormRowDescriptor formRowDescriptorWithTag:kSelectorBrand rowType:XLFormRowDescriptorTypeSelectorPush title:@"品牌"];
-    self.row.selectorControllerClass = [BrandTableViewController class];
+    self.row.action.viewControllerClass = [BrandTableViewController class];
     [self.section addFormRow:self.row];
     
     self.row = [XLFormRowDescriptor formRowDescriptorWithTag:kSelectorPurpose rowType:XLFormRowDescriptorTypeSelectorPush title:@"拜访目的"];
-    self.row.selectorControllerClass = [PurposeViewController class];
+    self.row.action.viewControllerClass = [PurposeViewController class];
     [self.section addFormRow:self.row];
     
     
@@ -140,7 +140,7 @@ NSString *const kSegmentedControl = @"segmentedControl";
     
     self.navigationItem.title=@"日报录入";
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
     
@@ -260,12 +260,12 @@ NSString *const kSegmentedControl = @"segmentedControl";
     if (!value) {
         
         switchRow.title=@"门店";
-        switchRow.selectorControllerClass=[StoreTableViewController class];
+        switchRow.action.viewControllerClass=[StoreTableViewController class];
     }
     else
     {
         switchRow.title=@"经销商";
-        switchRow.selectorControllerClass=[AgentTableViewController class];
+        switchRow.action.viewControllerClass=[AgentTableViewController class];
     }
     
     switchRow.value=nil;
@@ -316,7 +316,13 @@ NSString *const kSegmentedControl = @"segmentedControl";
 {
     if (buttonIndex==1) {
         [[self.form formRowWithTag:kSwitchBool] removeObserver:self forKeyPath:@"value" context:nil];
-        [self performSegueWithIdentifier:@"uploadId" sender:self];
+        
+        UploadViewController *uvc = [[UploadViewController alloc]init];
+        [uvc setValue:self.reportId forKey:@"reportId"];
+        [uvc setValue:date1 forKey:@"time1"];
+        [self.navigationController pushViewController:uvc animated:YES];
+
+            //[self performSegueWithIdentifier:@"uploadId" sender:self];
     }
     else
     {
@@ -324,15 +330,15 @@ NSString *const kSegmentedControl = @"segmentedControl";
     }
 }
 
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"uploadId"]) {
-        
-        id uploadController=segue.destinationViewController;
-        [uploadController setValue:self.reportId forKey:@"reportId"];
-        [uploadController setValue:date1 forKey:@"time1"];
-        
-    }
-}
+//-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.identifier isEqualToString:@"uploadId"]) {
+//        
+//        id uploadController=segue.destinationViewController;
+//        [uploadController setValue:self.reportId forKey:@"reportId"];
+//        [uploadController setValue:date1 forKey:@"time1"];
+//        
+//    }
+//}
 
 @end

@@ -121,7 +121,7 @@ UITableView *tableView;
     
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(goBack)];
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
 }
 
@@ -209,7 +209,7 @@ UITableView *tableView;
 //搜索框，点击搜索按钮
 -(void) searchButtonClicked
 {
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
 }
 

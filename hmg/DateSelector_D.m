@@ -65,7 +65,7 @@ XLFormRowDescriptor * row;
     formDescriptor = [XLFormDescriptor formDescriptorWithTitle:@"周末促查询"];
     
     section=[XLFormSectionDescriptor formSection];
-    section.title=@"请选择日期";
+    section.title=@"日期选择,只选择年份和月份";
     [formDescriptor addFormSection:section];
     
     row = [XLFormRowDescriptor formRowDescriptorWithTag:kStartDateA2 rowType:XLFormRowDescriptorTypeDateInline title:@"开始日期"];
@@ -107,7 +107,7 @@ XLFormRowDescriptor * row;
     
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(goBack)];
     
-    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self  action:@selector(saveButtonHandle)];
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"确认" style:UIBarButtonItemStyleBordered target:self  action:@selector(saveButtonHandle1)];
     
 }
 
@@ -118,9 +118,9 @@ XLFormRowDescriptor * row;
     
 }
 
--(void) saveButtonHandle
+-(void) saveButtonHandle1
 {
-    WeekendViewController *vc = [[WeekendViewController alloc]init];
+    
     
     NSDate *startDate1=[self.form formRowWithTag:kStartDateA2].value;
     
@@ -132,15 +132,16 @@ XLFormRowDescriptor * row;
     NSLog(@"%@",brand.ID);
     NSDateFormatter *fmt=[[NSDateFormatter alloc] init];
     fmt.dateFormat=@"yyyyMMdd";
-    
+    NSString *startDate2 = [fmt stringFromDate:[self.form formRowWithTag:kStartDateA2].value];
+    NSString *endDate2 = [fmt stringFromDate:[self.form formRowWithTag:kEndDateA2].value];
     if ([[fmt stringFromDate:startDate1] intValue] <=[[fmt stringFromDate:endDate1] intValue]) {
-        self.trendDelegate=vc; //设置代理
+//        WeekendViewController *wvc = [[WeekendViewController alloc]init];
+//        self.trendDelegate=wvc; //设置代理
+//        NSLog(@"%@",startDate2);
+
+        [self.trendDelegate getSTORE:store andBRAND:brand andSTARTDATE:startDate2 andENDDATE:endDate2];
         
-        [self.trendDelegate getSTORE:store andBRAND:brand andSTARTDATE:[fmt stringFromDate:startDate1] andENDDATE:[fmt stringFromDate:endDate1]];
-        
-            //        [self.delegate getSTORE:store andBRAND:brand andSTARTDATE:[fmt stringFromDate:startDate] andENDDATE:[fmt stringFromDate:endDate]];
-        
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else
         {

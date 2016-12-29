@@ -15,6 +15,7 @@
 #import "Common.h"
 #import "CP_LOGIN_LOG.h"
 #import "CommonResult.h"
+#import "IQKeyboardManager.h"
 @interface ViewController ()
 {
 
@@ -34,6 +35,8 @@ NSString *empno;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self updateApp];
+    
+    [self cleanCaches];
     if (!userDefaultes) {
         userDefaultes = [NSUserDefaults standardUserDefaults];
     }
@@ -229,5 +232,55 @@ NSString *empno;
 }
 
 
+
+    // 计算目录大小
+- (CGFloat)folderSizeAtPath:(NSString *)path
+{
+        // 利用NSFileManager实现对文件的管理
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    CGFloat size = 0;
+    if ([manager fileExistsAtPath:path]) {
+            // 获取该目录下的文件，计算其大小
+        NSArray *childrenFile = [manager subpathsAtPath:path];
+        for (NSString *fileName in childrenFile) {
+            NSString *absolutePath = [path stringByAppendingPathComponent:fileName];
+            size += [manager attributesOfItemAtPath:absolutePath error:nil].fileSize;
+        }  
+            // 将大小转化为M  
+        return size / 1024.0 / 1024.0;   
+    }   
+    return 0;
+}
+    // 根据路径删除文件
+- (void)cleanCaches:(NSString *)path
+{
+        // 利用NSFileManager实现对文件的管理
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:path]) {
+            // 获取该路径下面的文件名
+        NSArray *childrenFiles = [fileManager subpathsAtPath:path];
+        for (NSString *fileName in childrenFiles) {
+                // 拼接路径
+            NSString *absolutePath = [path stringByAppendingPathComponent:fileName];
+                // 将文件删除
+            [fileManager removeItemAtPath:absolutePath error:nil];
+        }  
+    }
+    
+}
+
+-(void)cleanCaches{
+
+    CGFloat size = [self folderSizeAtPath:NSTemporaryDirectory()];
+    
+    if (size > 15) {
+        NSString *message = size > 15 ? [NSString stringWithFormat:@"缓存%.2fM", size] : [NSString stringWithFormat:@"缓存%.2fK", size * 1024.0];
+        NSLog(@"%@",message);
+        [self cleanCaches:NSTemporaryDirectory()];
+    }
+
+
+}
 
 @end

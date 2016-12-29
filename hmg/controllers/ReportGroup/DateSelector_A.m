@@ -122,7 +122,7 @@ XLFormRowDescriptor * row;
         
     
     
-    [self.delegate getSTART_DATE:[fmt stringFromDate:startDate] andEND_DATE:[fmt stringFromDate:endDate]];
+    [self.delegate getSTART_DATE:[fmt stringFromDate:[self.form formRowWithTag:kStartDateA1].value] andEND_DATE:[fmt stringFromDate:[self.form formRowWithTag:kEndDateA1].value]];
     [self.navigationController popViewControllerAnimated:YES];
     }
     else

@@ -18,7 +18,8 @@
 #import "DeptModel.h"
 #import "UserModel.h"
 #import "AreaModel.h"
-#import "ReportCell.h"
+    //#import "ReportCell.h"
+#import "ReportCell1.h"
 #import "ReportModel.h"
 #import "ReportDetailDelegate.h"
 #import "ReportDetailViewController.h"
@@ -38,6 +39,9 @@
 #import "ReportCustomer.h"
 #import "HMG_DAILY_REPORT_DETAIL.h"
 #import "ReportPhotoViewController.h"
+#import "UITableView+SDAutoTableViewCellHeight.h"
+
+#import "UIView+SDAutoLayout.h"
 ASIHTTPRequest *request1;
 
 const int pageSize=50;
@@ -47,6 +51,8 @@ const int pageSize=50;
     int Max_Count;
     BOOL isRefresh;
     NSString *inpdtm;
+    
+    float cellHeight;
 }
 
 @property(nonatomic, retain) NSString * reportID;
@@ -115,28 +121,12 @@ UITableView *tableView;
     self.reports=[[NSMutableArray alloc] init];
     
     tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 105,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-105)];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [tableView registerClass:[ReportCell1 class] forCellReuseIdentifier:NSStringFromClass([ReportCell1 class])];
+        //tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:tableView];
     
     tableView.dataSource=self;
     tableView.delegate=self;
-    
-    
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    button.frame = CGRectMake(10, 110, self.view.frame.size.width - 20, 35);
-//    [button setUserInteractionEnabled:YES];
-//    button.layer.cornerRadius=5;
-//    button.layer.masksToBounds=YES;
-//    
-//    [button setBackgroundImage:[self createImageWithColor:[self colorWithHexString:@"#41b6ca" alpha:(1.0f)]] forState:UIControlStateNormal];
-//    
-//        //button.backgroundColor = [UIColor blueColor];
-//    [button setTitle:@"查  询" forState:UIControlStateNormal];
-//    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    button.titleLabel.font = [UIFont systemFontOfSize:20];
-//    [button addTarget:self action:@selector(search1) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:button];
-
     
     
     
@@ -557,10 +547,6 @@ UITableView *tableView;
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100;
-}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -569,57 +555,44 @@ UITableView *tableView;
 
 -(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ReportCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ReportCell"];
+    Class currentClass = [ReportCell1 class];
+    ReportCell1 *cell = nil;
     
-    if (!cell)
-    {
-        [tableView registerNib:[UINib nibWithNibName:@"ReportCell" bundle:nil] forCellReuseIdentifier:@"ReportCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"ReportCell"];
-    }
+    ReportModel *model = self.reports[indexPath.row];
     
- 
-    if (indexPath.row%2==0) {
-        cell.backgroundColor=[UIColor whiteColor];
-    }
-    else
-    {
-        cell.backgroundColor=[UIColor colorWithWhite:0.95 alpha:1.0];
-    }
     
-    cell.layer.masksToBounds=YES;
+    cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(currentClass)];
     
+    cell.model = model;
+    
+    [cell.ename addTarget:self action:@selector(reportUser:) forControlEvents:UIControlEventTouchUpInside];
+    cell.ename.tag = indexPath.row ;
+    [cell.company addTarget:self action:@selector(reportCoustomer:) forControlEvents:UIControlEventTouchUpInside];
+    cell.company.tag = indexPath.row ;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
-}
 
-//-------------------------------
--(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath != nil) {
-        
-    ReportCell *tempCell=(ReportCell*)cell;
-
-    ReportModel *reportModel=(ReportModel*)[self.reports objectAtIndex:indexPath.row];
-    if ([reportModel.STORE_NM isEqualToString:@"无"]) {
-       
-       [tempCell.company setTitle: reportModel.AGENT_NM forState:UIControlStateNormal];
-    }else
-    {
-        [tempCell.company setTitle:reportModel.STORE_NM forState:UIControlStateNormal];
-    }
-//    inpdtm =  reportModel.INP_DTM;
-//    tempCell.date.text = inpdtm;
-    tempCell.date.text = reportModel.INP_DTM;
-    tempCell.rmk.text=reportModel.RMK;
-    tempCell.product.text=reportModel.PRODUCT_NM;
-    tempCell.purpose.text=reportModel.VISIT_PURPOSE;
-    [tempCell.ename setTitle:reportModel.EMP_NM forState:UIControlStateNormal];
+          Class currentClass = [ReportCell1 class];
     
-    [tempCell.ename addTarget:self action:@selector(reportUser:) forControlEvents:UIControlEventTouchUpInside];
-    tempCell.ename.tag = indexPath.row ;
-    [tempCell.company addTarget:self action:@selector(reportCoustomer:) forControlEvents:UIControlEventTouchUpInside];
-    tempCell.company.tag = indexPath.row ;
-    }
+    ReportModel *model = self.reports[indexPath.row];
+        // 推荐使用此普通简化版方法（一步设置搞定高度自适应，性能好，易用性好）
+    return [tableView cellHeightForIndexPath:indexPath model:model keyPath:@"model" cellClass:currentClass contentViewWidth:[self cellContentViewWith]];
 }
+- (CGFloat)cellContentViewWith
+{
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    
+        // 适配ios7横屏
+    if ([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait && [[UIDevice currentDevice].systemVersion floatValue] < 8) {
+        width = [UIScreen mainScreen].bounds.size.height;
+    }
+    return width;
+}
+
 //-(void) saveNSUserDefaults{
 //    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 //    [userDefaults setObject:inpdtm forKey:@"inpdtm"];
@@ -636,7 +609,10 @@ UITableView *tableView;
     self.reportuser = reportModel.EMP_NO;
     
     NSLog(@"%@,%@",self.reportuser,reportModel.EMP_NO);
-    [self performSegueWithIdentifier:@"reportuserId" sender:self];
+    ReportUserViewController *ruv = [[ReportUserViewController alloc]init];
+    [ruv setValue:self.reportuser forKey:@"reportuser"];
+    [self.navigationController pushViewController:ruv animated:YES];
+        //[self performSegueWithIdentifier:@"reportuserId" sender:self];
     
 }
 
@@ -647,13 +623,21 @@ UITableView *tableView;
     if ([reportModel.STORE_NM isEqualToString:@"无"]) {
         self.reportcustomer = reportModel.CUSTOMER_ID;
         self.type1 =@"1";
-        
+        ReportCoustomerViewController *vc = [[ReportCoustomerViewController alloc]init];
+        vc.reportcustomer = self.reportcustomer;
+        vc.type1 = self.type1;
+        [self.navigationController pushViewController:vc animated:YES];
+
     }
     else{
         self.reportcustomer = reportModel.CUSTOMER_ID;
         self.type1 =@"0";
+        ReportCoustomerViewController *vc = [[ReportCoustomerViewController alloc]init];
+        vc.reportcustomer = self.reportcustomer;
+        vc.type1 = self.type1;
+        [self.navigationController pushViewController:vc animated:YES];
     }
-    [self performSegueWithIdentifier:@"ReportCustomerCellId" sender:self];
+           //[self performSegueWithIdentifier:@"ReportCustomerCellId" sender:self];
     
 }
 
@@ -678,19 +662,6 @@ UITableView *tableView;
         SearchViewController *searchController=(SearchViewController *)segue.destinationViewController;
         searchController.delegate=self;
     }
-    if ([segue.identifier isEqualToString:@"reportuserId"]) {
-        id CoustomerViewController = segue.destinationViewController;
-        [CoustomerViewController setValue:self.reportuser forKey:@"reportuser"];
-        
-    }
-    if ([segue.identifier isEqualToString:@"ReportCustomerCellId"]) {
-       
-        ReportCoustomerViewController *vc  = (ReportCoustomerViewController *)segue.destinationViewController;
-        vc.reportcustomer = self.reportcustomer;
-        vc.type1 = self.type1;
-            NSLog(@"%@,%@",vc.reportcustomer,vc.type1);
-        }
-    
 }
 
 
@@ -704,8 +675,11 @@ UITableView *tableView;
     
     inpdtm = value.INP_DTM;
     NSLog(@"%@",inpdtm);
-    
-    [self performSegueWithIdentifier:@"reportDetailId" sender:self];
+    ReportDetailViewController *rdc = [[ReportDetailViewController alloc]init];
+    [rdc setValue:self.reportID forKey:@"reportId"];
+    [rdc setValue:inpdtm forKey:@"inpdtm"];
+    [self.navigationController pushViewController:rdc animated:YES];
+//[self performSegueWithIdentifier:@"reportDetailId" sender:self];
 }
 
 #pragma 刷新控件
@@ -889,7 +863,7 @@ UITableView *tableView;
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(backMenu)];

@@ -53,16 +53,16 @@ NSString *url;
 NSString *file;
 NSString *contentValue;
 NSString *subject;
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self){
-        [self initializeForm];
-    }
-    
-    return self;
-}
-
+//-(id)initWithCoder:(NSCoder *)aDecoder
+//{
+//    self = [super initWithCoder:aDecoder];
+//    if (self){
+//        [self initializeForm];
+//    }
+//    
+//    return self;
+//}
+//
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,6 +76,7 @@ NSString *subject;
     [HUDManager showMessage:@"加载内容"];
     
     [self BoardDetailInfo];
+    [self initializeForm];
     [self.view addSubview:[self webView]];
 }
 
@@ -90,18 +91,6 @@ NSString *subject;
     return _webview;
 }
 
-//- (UIWebView *)webView1
-//{
-//    if (!_webview) {
-//        _webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, self.view.frame.size.height - 265)];
-//        _webview.dataDetectorTypes = UIDataDetectorTypeAll;
-//        _webview.backgroundColor = [UIColor whiteColor];
-//        //self.webview.scalesPageToFit = YES;
-//    }
-//    return _webview;
-//}
-
-
 
 -(void) BoardDetailInfo
 {
@@ -111,7 +100,7 @@ NSString *subject;
         
         param.IN_BOARD_ID = self.boardId;
         param.IN_SEQ = self.seq;
-        
+        NSLog(@"y----------------%@%@",param.IN_BOARD_ID,param.IN_SEQ);
         NSString *paramXml=[SoapHelper objToDefaultSoapMessage:param];
         [self.serviceHelper resetQueue];
         request=[ServiceHelper commonSharedRequestMethod:@"HMG_BOARD_DETAIL" soapMessage:paramXml];
@@ -173,46 +162,6 @@ NSString *subject;
     
 }
 
-//- (NSString *)dooo
-//{
-//
-//    NSLog(@"------");
-//    NSString * str= contentValue;
-//
-//  return  [self flattenHTML:str];
-//
-//}
-//
-//
-//- (NSString *)flattenHTML:(NSString *)html {
-//
-//    NSScanner *theScanner;
-//    NSString *text = nil;
-//    NSString * regEx = @"&nbsp";
-//    NSString * re = @";";
-//
-//    theScanner = [NSScanner scannerWithString:html];
-//
-//    while ([theScanner isAtEnd] == NO) {
-//        // find start of tag
-//        [theScanner scanUpToString:@"<" intoString:NULL] ;
-//
-//        // find end of tag
-//        [theScanner scanUpToString:@">" intoString:&text] ;
-//                // replace the found tag with a space
-//        //(you can filter multi-spaces out later if you wish)
-//        html = [html stringByReplacingOccurrencesOfString:
-//                [NSString stringWithFormat:@"%@>", text]
-//                                               withString:@""];
-//    } // while //
-//
-//    html = [html stringByReplacingOccurrencesOfString:regEx withString:@""];
-//    NSLog(@"-----===%@",html);
-//    html = [html stringByReplacingOccurrencesOfString:re withString:@""];
-//    NSLog(@"-----===%@",html);
-//
-//    return html;
-//}
 
 
 

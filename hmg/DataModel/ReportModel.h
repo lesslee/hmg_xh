@@ -22,8 +22,8 @@
 @property (nonatomic, retain) NSString * PRODUCT_NM;
 @property (nonatomic, retain) NSString * VISIT_PURPOSE;
 @property (nonatomic, retain) NSString * TOTAL_RECORDS;
-@property (nonatomic, retain) NSString *EMP_NO;
-@property (nonatomic, retain) NSString *CUSTOMER_ID;
+@property (nonatomic, retain) NSString * EMP_NO;
+@property (nonatomic, retain) NSString * CUSTOMER_ID;
 
 -(NSMutableArray *)searchNodeToArray:(id)data nodeName:(NSString *)name;
 

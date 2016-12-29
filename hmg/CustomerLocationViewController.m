@@ -17,7 +17,7 @@
 #import "SoapHelper.h"
 #import "Common.h"
 #import "CommonResult.h"
-#import "MenuViewController.h"
+    //#import "MenuViewController.h"
 #import "JKImagePickerController.h"
 #import "LxFTPRequest.h"
 #import "JGProgressHUD.h"
@@ -95,7 +95,7 @@ NSString *photoName;
     [row addObserver:self forKeyPath:@"value" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
     
     row = [XLFormRowDescriptor formRowDescriptorWithTag:kSelectorStore2 rowType:XLFormRowDescriptorTypeSelectorPush title:@"门店"];
-    row.selectorControllerClass = [StoreTableViewController class];
+    row.action.viewControllerClass = [StoreTableViewController class];
     [section addFormRow:row];
     
     self.form = formDescriptor;
@@ -114,7 +114,7 @@ NSString *photoName;
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
     
     
@@ -317,12 +317,12 @@ NSString *photoName;
     if (!value) {
         
         switchRow.title=@"门店";
-        switchRow.selectorControllerClass=[StoreTableViewController class];
+        switchRow.action.viewControllerClass=[StoreTableViewController class];
     }
     else
     {
         switchRow.title=@"经销商";
-        switchRow.selectorControllerClass=[AgentTableViewController class];
+        switchRow.action.viewControllerClass=[AgentTableViewController class];
     }
     
     switchRow.value=nil;

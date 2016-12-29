@@ -10,12 +10,13 @@
 #import "MBProgressHUDManager.h"
 #import "CLLRefreshHeadController.h"
 #import <UIKit/UIKit.h>
-#import "WeekendViewCell.h"
+    //#import "WeekendViewCell.h"
 #import "DateSelector_D.h"
 @class WeekendViewController;
-@interface WeekendViewController : UIViewController<ServiceHelperDelgate,NSCoding,UITableViewDataSource,UITableViewDelegate,  CLLRefreshHeadControllerDelegate,weekendDelegate1>
+@interface WeekendViewController : UIViewController<ServiceHelperDelgate,NSCoding,UITableViewDataSource,UITableViewDelegate,  CLLRefreshHeadControllerDelegate,weekendDelegate>
 {
     MBProgressHUDManager *HUDManager;
 }
 @property ServiceHelper *serviceHelper;
+
 @end

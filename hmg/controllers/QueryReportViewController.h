@@ -11,7 +11,7 @@
 #import "MBProgressHUDManager.h"
 #import "CLLRefreshHeadController.h"
 #import <UIKit/UIKit.h>
-#import "ReportCell.h"
+
 @class QueryReportViewController;
 
 @protocol PassValueDelegate

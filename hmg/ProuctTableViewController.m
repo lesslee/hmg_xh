@@ -18,11 +18,16 @@
 #import "ProductViewCell.h"
 #import "Brand1.h"
 #import "Prouct+Additions.h"
-#import "ProuctViewController.h"
+    //#import "ProuctViewController.h"
 #import "prouctSection.h"
 #import "LYChooseTool.h"
 ASIHTTPRequest *request;
 @interface ProuctTableViewController ()
+
+{
+    BOOL _isAllSelected;
+
+}
 @property (nonatomic) UIView * mapView;
 //@property (nonatomic,strong)CLLRefreshHeadController *refreshControll;
 //产品集合
@@ -103,14 +108,18 @@ NSString *prouctId;
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:nil];
+//    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:nil];
+    
+    
+        //为左边的item设置标题和动作
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"全选" style:UIBarButtonItemStylePlain target:self action:@selector(selecteAllCells:)];
     
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleBordered target:self action:@selector(submit)];
     
     
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:67/255.0 green:177/255.0 blue:215/255.0 alpha:1.0]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:75/255.0 green:192/255.0 blue:220/255.0 alpha:1.0]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],UITextAttributeTextColor,nil]];
 
     [self.navigationController setNavigationBarHidden:NO];
@@ -137,7 +146,7 @@ NSString *prouctId;
     
     cell.layer.masksToBounds=YES;
     
-    
+    cell.selectedBackgroundView = [[UIView alloc] init];
    
     return cell;
 }
@@ -184,7 +193,46 @@ NSString *prouctId;
     NSLog(@"%lu",(unsigned long)indexPaths.count);
   
 }
+#pragma mark Actions
+- (void)selecteAllCells:(UIBarButtonItem *)sender {
+    if (_isAllSelected == NO) {
+        
+        _isAllSelected = YES;
+        [sender setTitle:@"取消"];
+        
+        for (int i = 0; i < _productArray1.count; i++) {
+            
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+            Prouct *prouctName= (Prouct *)[_productArray1 objectAtIndex:indexPath.row];
+            
+            prouctname1 = prouctName.PROD_NM;
+            prouctId = prouctName.PROD_ID;
+            
+            NSLog(@"%@",prouctname1);
+            NSLog(@"%@",prouctId);
+            
+            [_productModel1.prouctArray addObject:prouctName];
+            
+            indexPaths =[tableView indexPathsForSelectedRows];
+            
+            NSLog(@"%lu",(unsigned long)indexPaths.count);
 
+        }
+    } else {
+        
+        _isAllSelected = NO;
+        [sender setTitle:@"全选"];
+        
+        for (int i = 0; i < self.productArray1.count; i++) {
+            
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+           
+            }
+    }
+    
+}
 -(void)submit{
     
     [self.navigationController popViewControllerAnimated:YES];

@@ -18,6 +18,8 @@
 #import "AppDelegate.h"
 #import "StoreCell.h"
 #import "WeekendViewController.h"
+
+#import "Weekend_PromotionViewController.h"
 @interface StoreTableViewController ()
 {
     int currentPage;
@@ -122,7 +124,7 @@ UITableView *tableView;
     
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(goBack)];
     
-    [HUDManager showMessage:@"加载中..."];
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
     
 }
@@ -201,9 +203,10 @@ UITableView *tableView;
         
         [self.serviceHelper resetQueue];
         self.serviceHelper=nil;
-        
-        [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
     }
+        
+
 }
 
 
@@ -239,7 +242,8 @@ UITableView *tableView;
 
 //搜索框，点击搜索按钮
 -(void) searchButtonClicked
-{[HUDManager showMessage:@"加载中..."];
+{
+        //[HUDManager showMessage:@"加载中..."];
     [self.refreshControll startPullDownRefreshing];
 }
 
@@ -312,7 +316,7 @@ UITableView *tableView;
     Common *common=[[Common alloc] initWithView:self.view];
     
     if (common.isConnectionAvailable) {
-        [HUDManager showMessage:@"加载中..."];
+            //[HUDManager showMessage:@"加载中..."];
         isRefresh=YES;
         currentPage=1;
         //[self setCanBack:NO];
@@ -329,7 +333,7 @@ UITableView *tableView;
     Common *common=[[Common alloc] initWithView:self.view];
     
     if (common.isConnectionAvailable) {
-        [HUDManager showMessage:@"加载中..."];
+            //[HUDManager showMessage:@"加载中..."];
         isRefresh=NO;
         [self performSelector:@selector(endLoadMore) withObject:nil afterDelay:3];
     }else{

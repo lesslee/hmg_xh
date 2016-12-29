@@ -12,7 +12,6 @@
 #import <ShareSDK/ShareSDK.h>
 #import "JPUSHService.h"
 #import <AdSupport/AdSupport.h>
-#import "MenuViewController.h"
 @interface AppDelegate ()
 
 
@@ -25,9 +24,15 @@
     @synthesize userInfo1;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;//这个是点击空白区域键盘收缩的开关
+                                             // 设置输入框与键盘间距
+    [IQKeyboardManager sharedManager].keyboardDistanceFromTextField = 44;
     
-    
-    //启动图片停留时间2秒
+        // 默认键盘上面有toolbar，不要的话设置NO
+    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+        //启动图片停留时间2秒
     //[UIView setAnimationDuration:2.0];
     
     //1.初始化ShareSDK应用,字符串"5559f92aa230"换成http://www.mob.com/后台申请的ShareSDK应用的Appkey
