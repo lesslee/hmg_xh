@@ -295,7 +295,7 @@
             make.top.mas_equalTo(line3.mas_bottom).with.offset(10);
             make.bottom.mas_equalTo(rootView.mas_bottom).with.offset(-10);
                 //make.width.mas_lessThanOrEqualTo(rootView.mas_width).multipliedBy(0.2);
-            make.left.mas_equalTo(lable.mas_right).with.offset(2);
+            make.left.mas_equalTo(lable.mas_right).with.offset(0);
         }];
         
         
@@ -328,7 +328,7 @@
         [rootView addSubview:self.hejiM];
         [self.hejiM mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(line3.mas_bottom).with.offset(10);
-            make.left.mas_equalTo(lable1.mas_right).with.offset(5);
+            make.left.mas_equalTo(lable1.mas_right).with.offset(0);
             make.bottom.mas_equalTo(rootView.mas_bottom).with.offset(-10);
                 //make.width.mas_lessThanOrEqualTo(rootView.mas_width).multipliedBy(0.4);
             
@@ -363,11 +363,11 @@
         self.dayormonthNU.textColor=[self colorWithHexString:@"#fd877c" alpha:1];
         [rootView addSubview:self.dayormonthNU];
         [self.dayormonthNU mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(lable2.mas_right).with.offset(5);
+            make.left.mas_equalTo(lable2.mas_right).with.offset(0);
             make.top.mas_equalTo(line3.mas_bottom).with.offset(10);
             make.bottom.mas_equalTo(rootView.mas_bottom).with.offset(-10);
                 //make.width.mas_lessThanOrEqualTo(rootView.mas_width).multipliedBy(0.4);
-            make.right.mas_equalTo(rootView.mas_right).with.offset(-5);
+                //make.right.mas_equalTo(rootView.mas_right).with.offset(-5);
         }];
 
     }

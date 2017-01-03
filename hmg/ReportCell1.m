@@ -82,7 +82,7 @@
     _company.sd_layout
     .leftSpaceToView(contentView,margin)
     .topSpaceToView(contentView,margin)
-    .widthIs(260)
+    .widthIs(self.contentView.frame.size.width)
     .heightIs(30);
     
     _rmk.sd_layout

@@ -16,13 +16,10 @@
     long long expectedLength;
     long long currentLength;
 }
-//@property (strong, nonatomic) IBOutlet UIView *view;
-- (IBAction)loginHandle:(id)sender;
-@property (strong, nonatomic) IBOutlet UITextField *loginId;
-@property (strong, nonatomic) IBOutlet UITextField *password;
-@property (strong, nonatomic) IBOutlet UISwitch *rememberPassword;
 
-@property (weak, nonatomic) IBOutlet UILabel *version;
-
+@property(nonatomic,strong)UITextField *longinID;
+@property(nonatomic,strong)UITextField *password;
+@property(nonatomic,strong)UIButton *longin;
+@property(nonatomic,strong)UILabel *version;
 @end
 

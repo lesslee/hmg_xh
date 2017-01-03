@@ -209,6 +209,7 @@ static NSString *kHeaderIdentifier = @"HeaderView";
     .heightIs(40);
     
     money1.backgroundColor = [self colorWithHexString:@"#7C7C7C" alpha:0.5];
+    money1.placeholder = @"请输入金额";
     money1.textColor = [UIColor whiteColor];
     money1.layer.cornerRadius = 5;
     money1.textAlignment = NSTextAlignmentCenter;

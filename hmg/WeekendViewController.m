@@ -98,13 +98,13 @@ UIScrollView *scrollView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     HUDManager = [[MBProgressHUDManager alloc] initWithView:self.navigationController.view];
     self.serviceHelper=[[ServiceHelper alloc] initWithDelegate:self];
     
     self.weekends = [[NSMutableArray alloc] init];
     self.view.backgroundColor = [self colorWithHexString:@"#e9f1f6" alpha:1];
-    tableView1=[[UITableView alloc] initWithFrame:CGRectMake(0, 105,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 105)];
+    tableView1=[[UITableView alloc] initWithFrame:CGRectMake(0, 41,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 105)];
     tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
         //tableView1.backgroundColor= [UIColor colorWithRed:233/255.0 green:241/255.0 blue:246/255.0 alpha:1.0f];
     [self.view addSubview:tableView1];
@@ -148,7 +148,7 @@ UIScrollView *scrollView;
     self.users = [NSMutableArray arrayWithObjects:user, nil];
     
         // 添加下拉菜单
-    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:44];
+    DOPDropDownMenu *menu = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0,0) andHeight:44];
     menu.tag=1111;
     menu.delegate = self;
     menu.dataSource = self;
@@ -603,6 +603,7 @@ UIScrollView *scrollView;
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     if (!self.serviceHelper) {
         
         self.serviceHelper=[[ServiceHelper alloc] initWithDelegate:self];

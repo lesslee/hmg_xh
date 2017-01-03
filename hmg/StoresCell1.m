@@ -235,7 +235,8 @@
         [rootView addSubview:lable2];
         
         [lable2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(rootView.mas_centerX);
+                //make.left.equalTo(rootView.mas_centerX);
+            make.left.equalTo(self.hjNU.mas_right).with.offset(10);
             make.centerY.equalTo(lable.mas_centerY);
             make.top.mas_equalTo(line2.mas_bottom).with.offset(10);
             make.bottom.equalTo(rootView.mas_bottom).with.offset(-15);

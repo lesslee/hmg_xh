@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16C41b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,24 +15,31 @@
                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gPW-Ne-puR">
-                        <rect key="frame" x="33" y="18" width="32" height="32"/>
+                        <rect key="frame" x="25" y="18" width="50" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="32" id="Ass-hI-lgJ"/>
-                            <constraint firstAttribute="height" constant="32" id="hQp-Mu-EuJ"/>
+                            <constraint firstAttribute="width" constant="50" id="Ass-hI-lgJ"/>
+                            <constraint firstAttribute="width" secondItem="gPW-Ne-puR" secondAttribute="height" multiplier="1:1" id="ezY-Dm-zVD"/>
+                            <constraint firstAttribute="height" constant="50" id="hQp-Mu-EuJ"/>
+                            <constraint firstAttribute="width" secondItem="gPW-Ne-puR" secondAttribute="height" multiplier="1:1" id="khL-J5-pMi"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ass-hI-lgJ"/>
+                            </mask>
+                        </variation>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoc-CM-0gA">
-                        <rect key="frame" x="34" y="71" width="33" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoc-CM-0gA">
+                        <rect key="frame" x="25" y="77" width="50" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.48627450980392156" green="0.48627450980392156" blue="0.48627450980392156" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="gPW-Ne-puR" firstAttribute="centerX" secondItem="xoc-CM-0gA" secondAttribute="centerX" constant="-1.5" id="NMP-CS-yYv"/>
-                <constraint firstItem="xoc-CM-0gA" firstAttribute="top" secondItem="gPW-Ne-puR" secondAttribute="bottom" constant="21" id="dd6-8w-sv3"/>
+                <constraint firstItem="gPW-Ne-puR" firstAttribute="centerX" secondItem="xoc-CM-0gA" secondAttribute="centerX" constant="-0.5" id="NMP-CS-yYv"/>
+                <constraint firstItem="xoc-CM-0gA" firstAttribute="top" secondItem="gPW-Ne-puR" secondAttribute="bottom" constant="9" id="dd6-8w-sv3"/>
                 <constraint firstItem="gPW-Ne-puR" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="18" id="evi-QI-F5S"/>
                 <constraint firstItem="gPW-Ne-puR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" constant="-0.5" id="kfW-ke-xeI"/>
             </constraints>
@@ -40,7 +48,7 @@
                 <outlet property="imageView" destination="gPW-Ne-puR" id="olr-Of-Tc4"/>
                 <outlet property="titleLb" destination="xoc-CM-0gA" id="Flq-lL-7yO"/>
             </connections>
-            <point key="canvasLocation" x="446.5" y="294"/>
+            <point key="canvasLocation" x="446" y="294"/>
         </collectionViewCell>
     </objects>
 </document>

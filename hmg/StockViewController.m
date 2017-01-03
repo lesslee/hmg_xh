@@ -448,8 +448,9 @@ NSInteger lastRow6 = -1;
         tempCell.qitaM.text = reportModel.OTHER_AMT;
         
         tempCell.hejiM.text = reportModel.TOTAL_COUNT_AMT;
-       
-        tempCell.dayormonthNU.text = reportModel.TURNOVER_DAY;
+//        NSString *str = reportModel.TURNOVER_DAY;
+//        str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        tempCell.dayormonthNU.text = [reportModel.TURNOVER_DAY stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
 }
 

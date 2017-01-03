@@ -61,8 +61,8 @@
         }];
         
         self.ManageName=[[UILabel alloc] init];
-        self.ManageName.font=[UIFont systemFontOfSize:16];
-        self.ManageName.textColor = [self colorWithHexString:@"#5cd1cc" alpha:1];
+        self.ManageName.font=[UIFont systemFontOfSize:18];
+        self.ManageName.textColor = [self colorWithHexString:@"#7C7C7C" alpha:1];
         [rootView addSubview:self.ManageName];
         [self.ManageName mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(rootView.mas_left).with.offset(5);
